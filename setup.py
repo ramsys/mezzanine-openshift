@@ -10,8 +10,8 @@ setup(
     author_email='isaac@bythewood.me',
     url='http://isaacbythewood.com/',
     install_requires=[
-        'Django==1.5.1',
-        'mezzanine==1.4.7',
+        'Django==1.6.4',
+        'mezzanine==3.1.3',
         'django_compressor==1.3'
     ],
 )
