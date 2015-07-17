@@ -3,3 +3,6 @@
 
 # media and databases 
 /data/*
+
+# virtualenv
+/venv

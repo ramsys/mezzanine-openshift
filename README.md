@@ -3,17 +3,37 @@
 This project is to provide the simplest way possible to run mezzanine on the
 openshift stack with the best possible defaults for development and production.
 
-#mezzanine-openshift 3.1
+## Current Mezzanine version
 
-I've just updated the version of Django and Mezzanine, can change the python version too. Updated to:
+* 'Django==1.6.11'
+* 'mezzanine==3.1.10'
+* 'django_compressor==1.5'
 
-Django==1.6.4
-mezzanine==3.1.3
 
-Changed basic configuration files too. 
+# Local
 
-* Thought wsgy.py in root isn't necessary
-* Thought local_setting.py isn't necessary since exists settings folder
+
+
+## Quick start local application
+
+Preparation local environment
+
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+Creating a demo application
+
+    python manage.py createdb --settings=settings.development
+    ...
+
+For execute local server
+
+       python manage.py runserver --settings=settings.development
+
+Open url http://127.0.0.1:8000
+
+# OpenShift
 
 ## Getting up and running
 
@@ -22,7 +42,7 @@ Changed basic configuration files too.
 Create an account at http://openshift.redhat.com/
 
 Install the RHC client tools if you have not already done so:
-    
+
     sudo gem install rhc
 
 Create a python-2.6 application
