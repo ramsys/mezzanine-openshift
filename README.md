@@ -12,8 +12,6 @@ openshift stack with the best possible defaults for development and production.
 
 # Local
 
-
-
 ## Quick start local application
 
 Preparation local environment
@@ -29,9 +27,13 @@ Creating a demo application
 
 For execute local server
 
-       python manage.py runserver --settings=settings.development
+     python manage.py runserver --settings=settings.development
 
 Open url http://127.0.0.1:8000
+
+Start modifying application
+
+    python manage.py collecttemplates --settings=settings.development
 
 # OpenShift
 
@@ -45,15 +47,16 @@ Install the RHC client tools if you have not already done so:
 
     sudo gem install rhc
 
-Create a python-2.6 application
+Create a python-2.7 application
 
-    rhc app create -a mezzanine -t python-2.6
+    rhc app create -a mezzanine -t python-2.7
 
 Add this upstream repo
 
     cd mezzanine
-    git remote add upstream -m master git://github.com/overshard/mezzanine-openshift.git
+    git remote add upstream -m master git://github.com/ramsys/mezzanine-openshift.git
     git pull -s recursive -X theirs upstream master
+
 
 Then push the repo upstream
 

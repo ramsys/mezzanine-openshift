@@ -7,7 +7,7 @@ setup(
     version='1.2',
     description='Mezzanine configured for deployment on OpenShift.',
     author='Isaac Bythewood',
-    contributors='Alberto Laita'
+    contributors='Alberto Laita',
     author_email='isaac@bythewood.me',
     url='http://isaacbythewood.com/',
     install_requires=[
