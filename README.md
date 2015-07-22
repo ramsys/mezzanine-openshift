@@ -117,7 +117,7 @@ Connect ssh OPENSHIFT cartridge and run createdb
     source $OPENSHIFT_HOMEDIR/python-2.6/virtenv/bin/activate
     cd $OPENSHIFT_REPO_DIR/wsgi/$OPENSHIFT_APP_NAME
     # python manage.py syncdb
-    python manage.py createdb
+    python manage.py createdb --settings=settings.production
 
 ## Connect to OpenShift PostgreSQL
 
