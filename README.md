@@ -127,6 +127,69 @@ Run port-forwarding to application
 
 And then configure new connection pgAdmin
 
+# Amazon S3
+
+Create bucket in Amazon S3 and add policy. Refer:
+
+  https://www.caktusgroup.com/blog/2014/11/10/Using-Amazon-S3-to-store-your-Django-sites-static-and-media-files/
+
+Download libraries for talk with S3
+
+    pip install django-storages boto
+
+Add to INSTALLED_APPS
+
+    INSTALLED_APPS = (
+          ...,
+          'storages',
+     )
+
+Add cache headers, for performance
+
+```python
+AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
+  'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+  'Cache-Control': 'max-age=94608000',
+}
+```
+
+Add S3 configuration to settings.py
+
+```python
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+# Tell django-storages that when coming up with the URL for an item in S3 storage, keep
+# it simple - just use this domain plus the path. (If this isn't set, things get complicated).
+# This controls how the `static` template tag from `staticfiles` gets expanded, if you're using it.
+# We also use it in the next setting.
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# This is used by the `static` template tag from `static`, if you're using that. Or if anything else
+# refers directly to STATIC_URL. So it's safest to always set it.
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
+# Tell the staticfiles app to use S3Boto storage when writing the collected static files (when
+# you run `collectstatic`).
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+```
+
+Add Openshift environment variables
+
+     rhc env set AWS_STORAGE_BUCKET_NAME='<value>'
+     rhc env set AWS_ACCESS_KEY_ID='<value>'
+     rhc env set AWS_SECRET_ACCESS_KEY='<value>'
+
+Finally, connect to Openshift SSH and execute collectstatic
+
+    source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
+    cd $OPENSHIFT_REPO_DIR/wsgi/$OPENSHIFT_APP_NAME
+    python manage.py collectstatic --settings=settings.production
+
+Reference: https://developers.openshift.com/en/managing-environment-variables.html#custom-variables
+
+
 ## Final notes
 
 In `wsgi/openshift/settings/production.py` `DEBUG` is set to `True` in order to
